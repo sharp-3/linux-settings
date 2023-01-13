@@ -1,0 +1,157 @@
+#################################################
+# dein.toml                                     #
+#                   dein plugin maneger setting #
+#################################################
+# templete
+# [[plugins]]
+# lazy = 1
+# repo = ''
+# depends = ['']
+# on_xxxxx = 
+# hook_xxxxx = ''''''
+
+
+[[plugins]]
+lazy = 0
+repo = 'Shougo/dein.vim'
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'tomasr/molokai'
+on_event = 'VimEnter'
+hook_post_source = '''colorscheme molokai'''
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'vim-denops/denops.vim'
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc.vim'
+depends = ['denops.vim','pum.vim']
+on_event = 'VimEnter'
+hook_post_source = '''
+	call ddc#custom#patch_global('ui', 'pum')
+	" call ddc#custom#patch_global('completionMenu', 'pum.vim')
+	call ddc#custom#patch_global('sources', ['vim-lsp'])
+	call ddc#custom#patch_global('sourceOptions', {
+	\	'_': {
+	\		'matchers': ['matcher_head','matcher_length'],
+	\		'sorters': ['sorter_rank'],
+	\		'converters': ['converter_remove_overlap']},
+	\	'vim-lsp': {
+	\		'mark': 'L',
+	\		'matchers': ['matcher_head','matcher_length'],
+	\		'sorters': ['sorter_rank']},
+	\	})
+	call ddc#custom#patch_global('sourceParams', {
+	\	'around' : {'maxSize': 500}
+	\	})
+	call ddc#custom#patch_filetype(['css'], {
+	\	'sourceParams': {
+	\		'vim-lsp': {
+	\				'ignoreCompleteProvider': v:true,
+	\			},
+	\		},
+	\	})
+	call ddc#enable()
+'''
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-ui-pum'
+depend = ['denops.vim','ddc.vim','pum.vim']
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/pum.vim'
+depend = ['denops.vim']
+on_source = ['ddc.vim','ddc-ui-pum']
+hook_source = '''
+	inoremap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<TAB>'
+	inoremap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<S-TAB>'
+	inoremap <silent><expr> <ESC>   pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<ESC>'
+	inoremap <silent><expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+'''
+#pum#visible() ?  : 
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-around'
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'shun/ddc-vim-lsp'
+depends = ['ddc.vim','vim-lsp-settings','denops.vim']
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'prabirshrestha/vim-lsp'
+on_event = 'VimEnter'
+
+
+[[plugins]]
+lazy = 1
+repo = 'mattn/vim-lsp-settings'
+depends = ['vim-lsp']
+on_source = ['vim-lsp']
+hook_source = '''
+	let g:lsp_settings_servers_dir = expand(g:vim_dir . '/lss')
+	let g:lsp_settings_global_settings_dir = expand(g:vim_dir . '/lss')
+	"let g:lsp_settings = {
+	"\	'clangd': {
+	"\		'args':['--fallback-style=AlignTrailingComments:true,AlignConsecutiveAssignments=true'],
+	"\	},
+	"\}
+'''
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-matcher_head'
+depends = ['ddc.vim']
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-matcher_length'
+depends = ['ddc.vim']
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-sorter_rank'
+depends = ['ddc.vim']
+on_source = ['ddc.vim']
+
+
+
+[[plugins]]
+lazy = 1
+repo = 'Shougo/ddc-converter_remove_overlap'
+depends = ['ddc.vim']
+on_source = ['ddc.vim']

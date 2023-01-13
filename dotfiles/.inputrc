@@ -1,0 +1,7 @@
+set completion-ignore-case on
+set colored-stats on
+set colored-completion-prefix on
+set visible-stats on
+set editing-mode vi
+"\e[A":previous-history
+"\e[B":next-history
