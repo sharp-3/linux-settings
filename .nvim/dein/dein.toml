@@ -84,8 +84,8 @@ hook_source = '''
 	inoremap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<S-TAB>'
 	inoremap <silent><expr> <ESC>   pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<ESC>'
 	inoremap <silent><expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+	"pum#visible() ?  : 
 '''
-#pum#visible() ?  : 
 
 
 [[plugins]]
