@@ -1,0 +1,7 @@
+*
+!.gitignore
+#dir
+!dein
+!init
+#file
+!init.vim

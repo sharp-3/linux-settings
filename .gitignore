@@ -1,0 +1,13 @@
+*
+!.gitignore
+#dir
+!.nvim/
+!makefile/
+#file
+!.bash_aliases
+!.bashrc
+!.bash_settings
+!.hushlogin
+!.inputrc
+!.profile
+!compile_flags.txt
