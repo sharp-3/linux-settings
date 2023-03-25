@@ -1,0 +1,7 @@
+*
+!.gitignore
+#dir
+#file
+!create_deb_package.sh
+!md5sums_create.sh
+!check_installed-size.sh

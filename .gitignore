@@ -3,6 +3,7 @@
 #dir
 !.nvim/
 !makefile/
+!deb
 #file
 !.bash_aliases
 !.bashrc
