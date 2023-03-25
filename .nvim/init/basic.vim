@@ -62,4 +62,4 @@ nn <F12> :set relativenumber!<CR>
 
 " options
 syntax enable
-lan en_US.utf8
+lan C.utf8
