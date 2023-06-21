@@ -34,6 +34,8 @@ set listchars=tab:@-,eol:$,extends:~
 set nowrap
 set tabstop=4
 set shiftwidth=4
+set softtabstop=4
+set noexpandtab
 set autoindent
 set smartindent
 set cindent

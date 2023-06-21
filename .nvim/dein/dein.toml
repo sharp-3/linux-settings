@@ -69,7 +69,7 @@ hook_post_source = '''
 [[plugins]]
 lazy = 1
 repo = 'Shougo/ddc-ui-pum'
-depend = ['denops.vim','ddc.vim','pum.vim']
+depends = ['denops.vim','ddc.vim','pum.vim']
 on_source = ['ddc.vim']
 
 
@@ -77,7 +77,7 @@ on_source = ['ddc.vim']
 [[plugins]]
 lazy = 1
 repo = 'Shougo/pum.vim'
-depend = ['denops.vim']
+depends = ['denops.vim']
 on_source = ['ddc.vim','ddc-ui-pum']
 hook_source = '''
 	inoremap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<TAB>'
