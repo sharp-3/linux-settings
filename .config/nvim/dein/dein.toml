@@ -23,6 +23,12 @@ hook_post_source = '''colorscheme molokai'''
 [[plugins]]
 lazy = 1
 repo = 'vim-denops/denops.vim'
+hook_source = '''
+	if executable(expand('~/.programs/deno/deno')) != 0
+		let g:denops#deno = expand('~/.programs/deno/deno')
+	endif
+	
+'''
 
 # ddc
 [[plugins]]
