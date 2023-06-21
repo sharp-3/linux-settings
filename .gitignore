@@ -1,7 +1,7 @@
 *
 !.gitignore
 #dir
-!.nvim/
+!.config
 !makefile/
 !deb
 #file

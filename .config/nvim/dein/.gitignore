@@ -1,7 +1,5 @@
 *
 !.gitignore
-#dir
-#file
 !dein.toml
 !installer.sh
 !uninstaller.sh

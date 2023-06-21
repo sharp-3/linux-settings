@@ -1,7 +1,5 @@
 *
 !.gitignore
 #dir
-!dein
-!init
+!nvim
 #file
-!init.vim
