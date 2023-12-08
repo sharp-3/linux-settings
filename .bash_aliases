@@ -1,23 +1,8 @@
-alias sudo='sudo '
-
-alias l='ls -CF --group-directories-first'
-alias ll='l -l'
-alias la='l -A'
-alias lla='ll -A'
-
-alias grep='grep --color'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-alias cls='clear'
-
-#LIST=""
-#LF='
-#'
-
-#LIST="$LIST$LF`find -L "$HOME/.programs/nvim/bin/" -perm /u=x,g=x,o=x -type f`"
-#LIST="$LIST$LF`find -L "$HOME/.programs/texlive/2023/bin/x86_64-linux" -perm /u=x,g=x,o=x -type f`"
-
-#for list in $LIST;do
-#	alias "`basename $list`"="$list"
-#done
+alias sudo="sudo "
+alias cls="clear"
+test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+alias ls="ls --color=auto --time-style=long-iso"
+alias l="ls -CF --group-directories-first"
+alias la="ls -CFA --group-directories-first"
+alias ll="ls -CFl --group-directories-first"
+alias lla="ls -CFlA --group-directories-first"
