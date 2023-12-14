@@ -53,6 +53,9 @@ repo = "prabirshrestha/vim-lsp"
 [[plugins]]
 repo = "mattn/vim-lsp-settings"
 depends = ["vim-lsp"]
+lua_source = """
+	vim.g['lsp_settings_servers_dir'] = vim.env.HOME .. '/.config/nvim/vim-lsp-settings/servers'
+"""
 [[plugins]]
 repo = "shun/ddc-source-vim-lsp"
 depends = ["denops.vim", "vim-lsp-settings", "vim-lsp"]
