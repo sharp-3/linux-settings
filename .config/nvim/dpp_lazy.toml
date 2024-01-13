@@ -6,7 +6,7 @@ lua_post_source = """vim.cmd.colorscheme("molokai")"""
 # ddc.vim
 [[plugins]]
 repo = "Shougo/ddc.vim"
-on_event = "VimEnter"
+on_event = "DenopsReady"
 depends = [
 	"denops.vim",
 	"pum.vim",
@@ -78,3 +78,4 @@ lua_post_source = """
 	vim.keymap.set('n', '<F5>', vim.cmd['RustRun'])
 	vim.keymap.set('n', '<F12>', vim.cmd['RustTest'])
 """
+

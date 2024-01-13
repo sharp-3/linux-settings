@@ -1,30 +1,52 @@
-local dpp_base      = "~/.config/nvim/dpp/"
-local dpp_config    = "~/.config/nvim/dpp.ts"
+function dpp_pkg_mgr(dpp_base, dpp_config)
+	local dpp_src    = dpp_base .. "/repos/github.com/Shougo/dpp.vim"
+	local denops_src = dpp_base .. "/repos/github.com/vim-denops/denops.vim"
 
-local dpp_src       = dpp_base .. "repos/github.com/Shougo/dpp.vim"
-local ext_toml      = dpp_base .. "repos/github.com/Shougo/dpp-ext-toml"
-local ext_lazy      = dpp_base .. "repos/github.com/Shougo/dpp-ext-lazy"
-local ext_installer = dpp_base .. "repos/github.com/Shougo/dpp-ext-installer"
-local ext_git       = dpp_base .. "repos/github.com/Shougo/dpp-protocol-git"
-local denops_src    = dpp_base .. "repos/github.com/vim-denops/denops.vim"
+	local dpp_ext_toml      = dpp_base .. "/repos/github.com/Shougo/dpp-ext-toml"
+	local dpp_ext_lazy      = dpp_base .. "/repos/github.com/Shougo/dpp-ext-lazy"
+	local dpp_ext_installer = dpp_base .. "/repos/github.com/Shougo/dpp-ext-installer"
+	local dpp_ext_git       = dpp_base .. "/repos/github.com/Shougo/dpp-protocol-git"
 
-vim.opt.runtimepath:prepend(dpp_src)
-vim.opt.runtimepath:append(ext_toml)
-vim.opt.runtimepath:append(ext_git)
-vim.opt.runtimepath:append(ext_lazy)
-vim.opt.runtimepath:append(ext_installer)
+	local dpp_load_state_flag = false
 
-if vim.fn["dpp#min#load_state"](dpp_base) then
-	vim.opt.runtimepath:prepend(denops_src)
+	vim.opt.runtimepath:prepend(dpp_src)
+	local dpp = require("dpp")
+	
+	vim.opt.runtimepath:append(dpp_ext_toml)
+	vim.opt.runtimepath:append(dpp_ext_lazy)
+	vim.opt.runtimepath:append(dpp_ext_installer)
+	vim.opt.runtimepath:append(dpp_ext_git)
 
-	vim.cmd(string.format("autocmd User DenopsReady call dpp#make_state('%s', '%s')", dpp_base, dpp_config))
-end
+	if dpp.load_state(dpp_base) then
+		vim.opt.runtimepath:prepend(denops_src)
 
-vim.cmd("filetype indent plugin on")
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "DenopsReady",
+			callback = function()
+				if dpp_load_state_flag == false then
+					dpp_load_state_flag = true
+					vim.notify("dpp.load_state() is failed.")
+					dpp.make_state(dpp_base, dpp_config)
+				end
+			end
+		})
+	end
 
-if vim.fn.has("syntax") then
+	vim.api.nvim_create_autocmd("User", {
+		pattern = "Dpp:makeStatePost",
+		callback = function()
+			vim.notify("dpp.make_state() is done.")
+		end
+	})
+
+	vim.cmd("filetype indent plugin on")
 	vim.cmd("syntax on")
 end
+
+--vim.g["denops#deno"]  = vim.fn.expand("~/.config/nvim/deno")
+vim.g["denops#debug"] = 1
+
+dpp_pkg_mgr("~/.config/nvim/dpp", "~/.config/nvim/dpp.ts")
 
 -- provider disable
 vim.g['loaded_python3_provider'] = 0
@@ -103,6 +125,4 @@ end
 -- vim.g.mapleader = vim.keycode'<Space>'
 vim.keymap.set('n','<Esc><Esc>', ':nohlsearch<CR>', { noremap = false })
 vim.keymap.set('n','==','gg=G',{noremap = true})
-
-vim.keymap.set('n','<F2>',':!typst compile %<CR>',{noremap = true})
 
