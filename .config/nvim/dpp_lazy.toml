@@ -6,7 +6,7 @@ lua_post_source = """vim.cmd.colorscheme("molokai")"""
 # ddc.vim
 [[plugins]]
 repo = "Shougo/ddc.vim"
-on_event = "DenopsReady"
+on_event = "VimEnter"
 depends = [
 	"denops.vim",
 	"pum.vim",
