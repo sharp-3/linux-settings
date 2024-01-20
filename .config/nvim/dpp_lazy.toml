@@ -74,6 +74,7 @@ ft = "rust"
 lua_post_source = """
 	vim.g['rustfmt_autosave'] = 0
 	vim.g['rustfmt_fail_silently'] = 1
+	vim.g['rustfmt_options'] = '+nightly --config imports_granularity=\"Item\"'
 	vim.keymap.set('n', '==', vim.cmd['RustFmt'])
 	vim.keymap.set('n', '<F5>', vim.cmd['RustRun'])
 	vim.keymap.set('n', '<F12>', vim.cmd['RustTest'])
