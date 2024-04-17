@@ -1,8 +1,12 @@
-set completion-ignore-case on
 set colored-stats on
-set colored-completion-prefix on
 set visible-stats on
-set input-meta on
-set editing-mode vi
-"\e[A":previous-history
-"\e[B":next-history
+set mark-symlinked-directories on
+set colored-completion-prefix on
+set menu-complete-display-prefix on
+set show-all-if-ambiguous on
+set completion-query-items 0
+set page-completions off
+set completion-ignore-case on
+set show-all-if-unmodified on
+"\e[A":history-search-backward
+"\e[B":history-search-forward

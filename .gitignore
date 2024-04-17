@@ -3,7 +3,6 @@
 #dir
 !.config
 !makefile/
-!deb
 #file
 !.bash_aliases
 !.bashrc

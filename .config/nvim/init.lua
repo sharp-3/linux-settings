@@ -1,52 +1,17 @@
-function dpp_pkg_mgr(dpp_base, dpp_config)
-	local dpp_src    = dpp_base .. "/repos/github.com/Shougo/dpp.vim"
-	local denops_src = dpp_base .. "/repos/github.com/vim-denops/denops.vim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-	local dpp_ext_toml      = dpp_base .. "/repos/github.com/Shougo/dpp-ext-toml"
-	local dpp_ext_lazy      = dpp_base .. "/repos/github.com/Shougo/dpp-ext-lazy"
-	local dpp_ext_installer = dpp_base .. "/repos/github.com/Shougo/dpp-ext-installer"
-	local dpp_ext_git       = dpp_base .. "/repos/github.com/Shougo/dpp-protocol-git"
-
-	local dpp_load_state_flag = false
-
-	vim.opt.runtimepath:prepend(dpp_src)
-	local dpp = require("dpp")
-	
-	vim.opt.runtimepath:append(dpp_ext_toml)
-	vim.opt.runtimepath:append(dpp_ext_lazy)
-	vim.opt.runtimepath:append(dpp_ext_installer)
-	vim.opt.runtimepath:append(dpp_ext_git)
-
-	if dpp.load_state(dpp_base) then
-		vim.opt.runtimepath:prepend(denops_src)
-
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "DenopsReady",
-			callback = function()
-				if dpp_load_state_flag == false then
-					dpp_load_state_flag = true
-					vim.notify("dpp.load_state() is failed.")
-					dpp.make_state(dpp_base, dpp_config)
-				end
-			end
-		})
-	end
-
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "Dpp:makeStatePost",
-		callback = function()
-			vim.notify("dpp.make_state() is done.")
-		end
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
 	})
-
-	vim.cmd("filetype indent plugin on")
-	vim.cmd("syntax on")
 end
 
---vim.g["denops#deno"]  = vim.fn.expand("~/.config/nvim/deno")
-vim.g["denops#debug"] = 1
-
-dpp_pkg_mgr("~/.config/nvim/dpp", "~/.config/nvim/dpp.ts")
+vim.opt.rtp:prepend(lazypath)
 
 -- provider disable
 vim.g['loaded_python3_provider'] = 0
@@ -90,7 +55,7 @@ vim.opt.matchpairs     = { "(:)", "{:}", "[:]" }
 vim.opt.showmode       = true
 -- status line
 vim.opt.laststatus     = 2
-vim.opt.statusline     = "%F[%R%M] %= %4l,%4c 0x04B"
+vim.opt.statusline     = "%F[%R%M] %= %4l,%4c 0x%04B"
 -- tab line
 vim.opt.showtabline    = 0
 -- vim.opt.tabline        = ""
@@ -113,12 +78,12 @@ vim.opt.wildoptions    = ""
 vim.opt.wildignorecase = true
 -- clipboard
 if vim.fn.has('wsl') == 1 then
-	vim.opt.clipboard = "unnamedplus"
-	-- apt install xclip
+        vim.opt.clipboard = "unnamedplus"
+        -- apt install xclip
 elseif vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 or vim.fn.has('mac') == 1 then
-	vim.opt.clipboard = "unnamed"
+        vim.opt.clipboard = "unnamed"
 else
-	vim.opt.clipboard = "unnamedplus"
+        vim.opt.clipboard = "unnamedplus"
 end
 
 -- keymap
@@ -126,3 +91,4 @@ end
 vim.keymap.set('n','<Esc><Esc>', ':nohlsearch<CR>', { noremap = false })
 vim.keymap.set('n','==','gg=G',{noremap = true})
 
+require("lazy").setup("plugins")

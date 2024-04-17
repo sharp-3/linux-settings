@@ -68,7 +68,11 @@ if [ -e ~/.bash_aliases ]; then
 fi
 
 if [ -e ~/.cargo/env ]; then
-  . ~/.cargo/env
+	. ~/.cargo/env
+fi
+
+if [ -e ~/.programs/env ]; then
+	. ~/.programs/env
 fi
 
 cache_dir="/run/user/$(id -u)/cache"
