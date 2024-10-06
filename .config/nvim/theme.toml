@@ -1,0 +1,10 @@
+[[plugins]]
+repo = "tanvirtin/monokai.nvim"
+on_event = "VimEnter"
+lua_source = """
+	require("monokai").setup({
+		palette = {
+			base2 = "#000000"
+		}
+	})
+"""

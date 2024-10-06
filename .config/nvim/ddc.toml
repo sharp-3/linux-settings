@@ -1,0 +1,178 @@
+[[plugins]]
+repo = "Shougo/ddc.vim"
+depends = "denops.vim"
+on_event = "VimEnter"
+lua_source = """
+	vim.keymap.set(
+		"i",
+		"<TAB>",
+		[[pumvisible() ? '<C-n>' : (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\\s') ? '<TAB>' : ddc#map#manual_complete()]],
+		{ expr = true }
+	)
+	vim.keymap.set(
+		"i",
+		"<S-TAB>",
+		"pumvisible() ? '<C-p>' : '<C-h>'",
+		{ expr = true }
+	)
+	vim.keymap.set(
+		"i",
+		"<CR>",
+		"pumvisible() ? ddc#map#manual_complete() : '<CR>'",
+		{ expr = true }
+	)
+
+	vim.fn["ddc#custom#patch_global"]({
+		ui = "native",
+		sources = { 
+			--"around",
+			"lsp",
+		},
+		sourceParams = {
+			lsp = {
+				enableDisplayDetail = true,
+				enableResolveItem = ture,
+				enableAdditionalTextEdit = true,
+				lspEngine = "vim-lsp",
+				--lspEngine = "nvim-lsp",
+			},
+		},
+		sourceOptions = {
+			_ = {
+				matchers = { "matcher_head" },
+				sorters = { "sorter_rank" },
+				converters = {},
+			},
+			lsp = {
+				mark = "LSP",
+				dup = "force",
+				forceCompletionPattern = [[\\\\.\\\\w*|:\\\\w*|->\\\\w*]],
+				sorters = { "sorter_lsp-kind" },
+				converters = { "converter_kind_labels" },
+			}
+		},
+		filterParams = {
+			converter_kind_labels = {
+				--[[
+				kindLabels = {
+					Text = "",
+					Method = "",
+					Function = "",
+					Constructor = "",
+					Field = "",
+					Variable = "",
+					Class = "",
+					Interface = "",
+					Module = "",
+					Property = "",
+					Unit = "",
+					Value = "",
+					Enum = "",
+					Keyword = "",
+					Snippet = "",
+					Color = "",
+					File = "",
+					Reference = "",
+					Folder = "",
+					EnumMember = "",
+					Constant = "",
+					Struct = "",
+					Event = "",
+					Operator = "",
+					TypeParameter = ""
+				},
+				]]--
+				kindHlGroups = {
+					Method = "Function",
+					Function = "Function",
+					Constructor = "Function",
+					Field = "Identifier",
+					Variable = "Identifier",
+					Class = "Structure",
+					Interface = "Structure",
+				}
+			}
+		},
+	})
+	vim.fn["ddc#enable"]()
+"""
+
+#[[plugins]]
+#repo = "Shougo/ddc-source-around"
+#on_source = "ddc.vim"
+[[plugins]]
+repo = "Shougo/ddc-source-lsp"
+depends = [ 
+	"vim-lsp-settings",
+	"vim-lsp"
+#	"nvim-lsp-settings",
+#	"nvim-lspconfig",
+]
+on_source = "ddc.vim"
+[[plugins]]
+repo = "mattn/vim-lsp-settings"
+depends = "vim-lsp"
+on_source = "ddc.vim"
+[[plugins]]
+repo = "prabirshrestha/vim-lsp"
+on_source = "ddc.vim"
+hook_source = """
+	if executable("tinymist")
+		autocmd User lsp_setup call lsp#register_server({
+		\\	"name": "tinymist",
+		\\	"cmd": {server_info->["tinymist"]},
+		\\	"allowlist": ["typst"],
+		\\})
+	endif
+"""
+#[[plugins]]
+#repo = "neovim/nvim-lspconfig"
+#[[plugins]]
+#repo = "uga-rosa/ddc-source-lsp-setup"
+#depends = ["ddc-source-lsp", "nvim-lspconfig"]
+#lua_source = """
+#	require("ddc_source_lsp_setup").setup()
+#	local lspconfig = require("lspconfig")
+#	lspconfig.rust_analyzer.setup({
+#		on_attach = function(client, bufnr)
+#			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+#		end,
+#	})
+#	lspconfig.clangd.setup({
+#		cmd = { "clangd", "--enable-config", "--fallback-style={IndentWidth:4,UseTab: ForIndentation}" },
+#		on_attach = function(client, bufnr)
+#			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+#		end,
+#	})
+#	lspconfig.jdtls.setup({})
+#"""
+
+[[plugins]]
+repo = "Shougo/ddc-ui-native"
+on_source = "ddc.vim"
+[[plugins]]
+repo = "matsui54/denops-signature_help"
+lua_source = """
+	vim.g["signature_help_config"] = {
+		contentsStyle = "labels",
+		viewStyle = "floating",
+	}
+	vim.fn["signature_help#enable"]()
+"""
+
+[[plugins]]
+repo = "Shougo/ddc-filter-matcher_head"
+on_source = "ddc.vim"
+[[plugins]]
+repo = "Shougo/ddc-filter-sorter_rank"
+on_source = "ddc.vim"
+
+[[plugins]]
+repo = "kaarmu/typst.vim"
+on_ft = "typst"
+lazy = false
+
+[[plugins]]
+repo = "rust-lang/rust.vim"
+on_ft = "rust"
+lazy = false
