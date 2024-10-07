@@ -1,5 +1,6 @@
 alias sudo="sudo "
 alias ls="ls -Fh --color=auto --group-directories-first"
+alias l="ls"
 alias la="ls -A"
 alias ll="ls -l --time-style=long-iso"
 alias lla="ls -lA --time-style=long-iso"
