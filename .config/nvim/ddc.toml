@@ -7,19 +7,19 @@ lua_source = """
 		"i",
 		"<TAB>",
 		[[pumvisible() ? '<C-n>' : (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\\s') ? '<TAB>' : ddc#map#manual_complete()]],
-		{ expr = true }
+		{ silent = true, expr = true }
 	)
 	vim.keymap.set(
 		"i",
 		"<S-TAB>",
-		"pumvisible() ? '<C-p>' : '<C-h>'",
-		{ expr = true }
+		[[pumvisible() ? "<C-p>" : "<C-h>"]],
+		{ silent = true, expr = true }
 	)
 	vim.keymap.set(
 		"i",
 		"<CR>",
-		"pumvisible() ? ddc#map#manual_complete() : '<CR>'",
-		{ expr = true }
+		[[pumvisible() ? "<C-y>" : "<CR>"]],
+		{ silent = true, expr = true }
 	)
 
 	vim.fn["ddc#custom#patch_global"]({
@@ -33,8 +33,11 @@ lua_source = """
 				enableDisplayDetail = true,
 				enableResolveItem = ture,
 				enableAdditionalTextEdit = true,
-				lspEngine = "vim-lsp",
-				--lspEngine = "nvim-lsp",
+				--lspEngine = "vim-lsp",
+				lspEngine = "nvim-lsp",
+				--[[snippetEngine = vim.fn["denops#callback#register"](function(body)
+					vim.fn["vsnip#anonymous"](body)
+				end)--]]
 			},
 		},
 		sourceOptions = {
@@ -44,7 +47,7 @@ lua_source = """
 				converters = {},
 			},
 			lsp = {
-				mark = "LSP",
+				--mark = "LSP",
 				dup = "force",
 				forceCompletionPattern = [[\\\\.\\\\w*|:\\\\w*|->\\\\w*]],
 				sorters = { "sorter_lsp-kind" },
@@ -103,55 +106,64 @@ lua_source = """
 [[plugins]]
 repo = "Shougo/ddc-source-lsp"
 depends = [ 
-	"vim-lsp-settings",
-	"vim-lsp"
-#	"nvim-lsp-settings",
-#	"nvim-lspconfig",
+#	"vim-lsp-settings",
+#	"vim-lsp"
+	"ddc-source-lsp-setup",
+	"nvim-lspconfig",
 ]
 on_source = "ddc.vim"
-[[plugins]]
-repo = "mattn/vim-lsp-settings"
-depends = "vim-lsp"
-on_source = "ddc.vim"
-[[plugins]]
-repo = "prabirshrestha/vim-lsp"
-on_source = "ddc.vim"
-hook_source = """
-	if executable("tinymist")
-		autocmd User lsp_setup call lsp#register_server({
-		\\	"name": "tinymist",
-		\\	"cmd": {server_info->["tinymist"]},
-		\\	"allowlist": ["typst"],
-		\\})
-	endif
-"""
 #[[plugins]]
-#repo = "neovim/nvim-lspconfig"
+#repo = "mattn/vim-lsp-settings"
+#depends = "vim-lsp"
+#on_source = "ddc.vim"
 #[[plugins]]
-#repo = "uga-rosa/ddc-source-lsp-setup"
-#depends = ["ddc-source-lsp", "nvim-lspconfig"]
-#lua_source = """
-#	require("ddc_source_lsp_setup").setup()
-#	local lspconfig = require("lspconfig")
-#	lspconfig.rust_analyzer.setup({
-#		on_attach = function(client, bufnr)
-#			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
-#		end,
-#	})
-#	lspconfig.clangd.setup({
-#		cmd = { "clangd", "--enable-config", "--fallback-style={IndentWidth:4,UseTab: ForIndentation}" },
-#		on_attach = function(client, bufnr)
-#			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
-#		end,
-#	})
-#	lspconfig.jdtls.setup({})
+#repo = "prabirshrestha/vim-lsp"
+#on_source = "ddc.vim"
+#hook_source = """
+#	if executable("tinymist")
+#		autocmd User lsp_setup call lsp#register_server({
+#		\\	"name": "tinymist",
+#		\\	"cmd": {server_info->["tinymist"]},
+#		\\	"allowlist": ["typst"],
+#		\\})
+#	endif
 #"""
+
+[[plugins]]
+repo = "neovim/nvim-lspconfig"
+on_source = "ddc.vim"
+[[plugins]]
+repo = "uga-rosa/ddc-source-lsp-setup"
+depends = ["ddc-source-lsp", "nvim-lspconfig"]
+on_source = "ddc.vim"
+lua_source = """
+	require("ddc_source_lsp_setup").setup()
+	local lspconfig = require("lspconfig")
+	lspconfig.rust_analyzer.setup({
+		on_attach = function(client, bufnr)
+			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+		end,
+	})
+	lspconfig.clangd.setup({
+		cmd = { "clangd", "--enable-config", "--fallback-style={IndentWidth:4,UseTab: ForIndentation}" },
+		on_attach = function(client, bufnr)
+			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+		end,
+	})
+	lspconfig.jdtls.setup({})
+	lspconfig.tinymist.setup({
+		on_attach = function(client, bufnr)
+			vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+		end,
+	})
+"""
 
 [[plugins]]
 repo = "Shougo/ddc-ui-native"
 on_source = "ddc.vim"
 [[plugins]]
 repo = "matsui54/denops-signature_help"
+on_source = "ddc.vim"
 lua_source = """
 	vim.g["signature_help_config"] = {
 		contentsStyle = "labels",

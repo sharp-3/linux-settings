@@ -9,14 +9,14 @@ vim.g["denops#debug"] = 1
 
 function DppInitPlugin(plugin)
 	local src = vim.g["cache"] .. "/dpp/repos/github.com/" .. plugin
-	if not vim.loop.fs_stat(src) then
+	if vim.fn.isdirectory(src) ~= 1 then
 		vim.system({
 			"git",
 			"clone",
 			"--filter=blob:none",
 			"https://github.com/" .. plugin .. ".git",
 			src,
-		})
+		}):wait()
 	end
 	vim.opt.runtimepath:prepend(src)
 end
@@ -32,7 +32,6 @@ local dpp_config = vim.g["config"] .. "/dpp.ts"
 function DppMakeState()
 	dpp.make_state(dpp_base, dpp_config)
 end
-
 
 if dpp.load_state(dpp_base) then
 	local plugins = {
@@ -96,7 +95,7 @@ vim.opt["wrapscan"] = true
 vim.opt["syntax"] = "on"
 vim.cmd("filetype indent plugin on")
 vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR>", { noremap = true })
-vim.keymap.set("i", "==", ":LspDocumentFormat<CR>", { noremap = true })
+vim.keymap.set("c", "==", ":LspDocumentFormat<CR>", { noremap = true })
 
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 or vim.fn.has("mac") == 1 then
 	vim.opt.clipboard = "unnamed"
